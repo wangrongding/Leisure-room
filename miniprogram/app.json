@@ -1,0 +1,48 @@
+{
+    "pages": [
+        "pages/movie/movie",
+        "pages/top250/top250",
+        "pages/comingSoon/comingSoon",
+        "pages/profile/profile",
+        "pages/comment/comment"
+    ],
+    "window": {
+        "enablePullDownRefresh": true,
+        "backgroundColor": "#F6F6F6",
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#E54847",
+        "navigationBarTitleText": "Sparrow影评",
+        "navigationBarTextStyle": "white"
+    },
+    "tabBar": {
+        "color": "#000",
+        "selectedColor": "#E54847",
+        "list": [
+            {
+                "pagePath": "pages/movie/movie",
+                "text": "正在热映",
+                "iconPath": "images/movie.png",
+                "selectedIconPath": "images/movie_action.png"
+            },
+            {
+                "pagePath": "pages/top250/top250",
+                "text": "电影TOP250",
+                "iconPath": "images/movie_1.png",
+                "selectedIconPath": "images/movie_action2.png"
+            },
+            {
+                "pagePath": "pages/comingSoon/comingSoon",
+                "text": "即将上映",
+                "iconPath": "images/commingMovie.png",
+                "selectedIconPath": "images/commingMovieAction.png"
+            },
+            {
+                "pagePath": "pages/profile/profile",
+                "text": "我的",
+                "iconPath": "images/me.png",
+                "selectedIconPath": "images/me_action.png"
+            }
+        ]
+    },
+    "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,8 @@
+<view class='profile'>
+    <van-notice-bar mode="closeable" text="该项目为我学习小程序总结知识所用,如有涉及版权问题,请联系我删除!        作者:汪荣顶      QQ:729319240" />
+    <view class="profile-img">
+        <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <open-data type="userNickName" class="profile-name"></open-data>
+</view>
+<button type="warn" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">获取用户信息</button>

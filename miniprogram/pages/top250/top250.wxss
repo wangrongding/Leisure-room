@@ -1,0 +1,35 @@
+/* pages/movie/movie.wxss */
+
+.movie {
+    height: 300rpx;
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.movie-img {
+    width: 200rpx;
+    height: 100%;
+    margin-right: 20rpx;
+}
+
+.movie-info {
+    flex: 1;
+}
+
+.movie-title {
+    color: #666;
+    font-size: 40rpx;
+    font-weight: bolder;
+}
+.movie-score{
+    color:#faaf00
+}
+.movie-comment{
+    height: 60rpx;
+    background: #E54847;
+    color:#fff;
+    font-size: 26rpx;
+    margin-top: 120rpx;
+    width: 150rpx;
+}
