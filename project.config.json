@@ -2,13 +2,14 @@
 	"miniprogramRoot": "miniprogram/",
 	"cloudfunctionRoot": "cloudfunctions/",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"enhance": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
 		"coverView": true,
+		"nodeModules": true,
 		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -17,10 +18,9 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		},
-		"nodeModules": true
+		}
 	},
-	"appid": "wx50318d70bc9d41c0",
+	"appid": "wxa08c6b71af4a13a9",
 	"projectname": "montage",
 	"libVersion": "2.8.1",
 	"simulatorType": "wechat",
@@ -54,7 +54,7 @@
 					"id": 1,
 					"name": "comment",
 					"pathName": "pages/comment/comment",
-					"query": "movieid=25779217",
+					"query": "movieid=1292052",
 					"scene": null
 				}
 			]

@@ -9,17 +9,43 @@
             <view class='detail.sc'>{{detail.rating.average}}分</view>
             <view>{{detail.countries[0]}}</view>
             <view>导演：{{detail.directors[0].name}}</view>
+            <view>
+                <van-button wx:for="{{detail.trailer_urls}}" wx:key="index" data-movieUrl="{{item}}" size="mini" type="warning" bindtap="gotoPlay" style="margin-right:5px;">
+                    预告片{{index+1}}
+                </van-button>
+            </view>
         </view>
     </view>
+    <!-- 电影标签 -->
+    <van-divider contentPosition="left">电影标签</van-divider>
+    <view>
+        <van-tag wx:for="{{detail.tags}}" wx:key="index" style="margin-right:5rpx" plain type="primary">{{item}}</van-tag>
+    </view>
+
+    <!-- 电影介绍 -->
+    <van-divider contentPosition="left">电影介绍</van-divider>
     <view class='desc'>{{detail.summary}}</view>
+
+    <!-- 演员阵容 -->
+  <!--   <van-divider contentPosition="left">演员阵容</van-divider>
+    <image mode="aspectFit" src="https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p34642.webp"></image> -->
+
+    <!-- 评价列表 -->
+
     <!-- 评价 -->
-    <view class="comment-container">
-        <van-field value="{{ content }}" custom-style="min-height:200rpx" placeholder="写一些评价吧" bind:change="onContentChange" type="textarea" autosize/>
-        <van-rate style="width:100rpx" value="{{ score*0.5 }}" bind:change="onScoreChange" allow-half	/>
+    <view class="comment-container" wx:if="{{commentShow}}" style="border:1px dashed #c3c3c3">
+        <van-field value="{{ content }}" custom-style="min-height:200rpx" placeholder="写一些评价吧" bind:change="onContentChange" type="textarea" autosize />
+        <van-rate style="width:100rpx" value="{{ score*0.5 }}" bind:change="onScoreChange" allow-half />
         <van-button type="warning" bindtap="uploadImg">上传图片</van-button>
-        <view>
-            <image class="comment-img" src="{{item}}" wx:for="{{images}}" wx:key="{{index}}"></image>
-        </view>
-        <van-button size="large" type="danger" bindtap="submit">提交评价</van-button>
+        <van-row>
+            <van-col span="8" wx:for="{{images}}" wx:key="{{index}}">
+                <van-image width="240rpx" height="240rpx" fit="cover" src="{{item}}" />
+            </van-col>
+        </van-row>
+    </view>
+
+    <view>
+        <van-button wx:if="{{commentShow}}" style="float:right" size="normal" type="primary" bindtap="submit">提交评价</van-button>
+        <van-button data-commentShow="{{commentShow}}" size="{{commentShow==false?'large':'normal'}}" type="danger" bindtap="handleCommentShow" style="{{commentShow?'margin-right:5px;float:right':''}}">{{commentShow?'关闭评论':'点击评论'}}</van-button>
     </view>
 </view>

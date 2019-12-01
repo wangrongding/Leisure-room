@@ -5,11 +5,28 @@ Page({
      * 页面的初始数据
      */
     data: {
+        commentShow: false,
         detail: {},
         content: "", //评价的内容
         score: 5,
         images: [],
         fileids: []
+    },
+    handleCommentShow: function(event) {
+        console.log(event)
+        console.log(event.target.dataset.commentshow)
+        this.setData({
+            commentShow: !event.target.dataset.commentshow
+        })
+        console.log(event.target.dataset.commentshow)
+    },
+    //跳转到电影详情页面
+    gotoPlay: function(event) {
+        console.log(event)
+        wx.navigateTo({
+            url: `../play/play?movieurl=${event.target.dataset.movieurl}`,
+        })
+
     },
 
     submit: function() {

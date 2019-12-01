@@ -75,14 +75,8 @@
     padding: 20rpx;
 }
 
-.comment-img {
-    width: 215rpx;
-    height: 215rpx;
-    margin: 10rpx 10rpx 10rpx 10rpx;
-}
-
-.van-rate{
+.van-rate {
     display: inline-block;
     width: 530rpx;
-    margin:60rpx 0;
+    margin: 60rpx 0;
 }
