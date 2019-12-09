@@ -1,7 +1,7 @@
 <view class=''>
     <view class='detail-container' style='background: url({{detail.images.large}}) no-repeat  top/cover'></view>
     <view class='detail-mask'></view>
-    <view class='detail-info'>
+    <view class='detail-info' style="padding:15rpx;margin:0">
         <image src="{{detail.images.large}}" class='detail-img'></image>
         <view class='detail'>
             <view class='detail-nm'>{{detail.title}}</view>
@@ -10,42 +10,93 @@
             <view>{{detail.countries[0]}}</view>
             <view>导演：{{detail.directors[0].name}}</view>
             <view>
-                <van-button wx:for="{{detail.trailer_urls}}" wx:key="index" data-movieUrl="{{item}}" size="mini" type="warning" bindtap="gotoPlay" style="margin-right:5px;">
+                <van-button wx:for="{{detail.trailer_urls}}" wx:key="index" data-movieUrl="{{item}}" size="mini" type="warning" bindtap="gotoPlay" style="margin-right:2px;">
                     预告片{{index+1}}
                 </van-button>
             </view>
         </view>
     </view>
-    <!-- 电影标签 -->
-    <van-divider contentPosition="left">电影标签</van-divider>
-    <view>
-        <van-tag wx:for="{{detail.tags}}" wx:key="index" style="margin-right:5rpx" plain type="primary">{{item}}</van-tag>
-    </view>
+    <view style="padding:0 20rpx;">
+        <!-- 电影标签 -->
+        <van-divider contentPosition="left">电影标签</van-divider>
+        <view>
+            <van-tag wx:for="{{detail.tags}}" wx:key="index" style="margin-right:5rpx" plain type="primary">{{item}}</van-tag>
+        </view>
 
-    <!-- 电影介绍 -->
-    <van-divider contentPosition="left">电影介绍</van-divider>
-    <view class='desc'>{{detail.summary}}</view>
+        <!-- 电影介绍 -->
+        <van-divider contentPosition="left">电影介绍</van-divider>
+        <view class='desc'>{{detail.summary}}</view>
 
-    <!-- 演员阵容 -->
-  <!--   <van-divider contentPosition="left">演员阵容</van-divider>
-    <image mode="aspectFit" src="https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p34642.webp"></image> -->
+        <!-- 演员阵容 -->
+        <van-divider contentPosition="left">主演阵容</van-divider>
 
-    <!-- 评价列表 -->
+        <view class="tower-swiper" bindtouchmove="towerMove" bindtouchstart="towerStart" bindtouchend="towerEnd">
+            <view class="tower-item {{item.zIndex==1?'none':''}}" wx:for="{{swiperList}}" wx:key="index" style="--index:{{item.zIndex}};--left:{{item.mLeft}}">
+                <view class="swiper-item">
+                    <image src="{{item.avatars.small}}" mode="aspectFill"></image>
+                </view>
+                <view style="text-align:center;font-size: 36rpx;" wx:if="{{item.zIndex==swiperList.length-1}}">{{item.name}}</view>
+            </view>
+        </view>
 
-    <!-- 评价 -->
-    <view class="comment-container" wx:if="{{commentShow}}" style="border:1px dashed #c3c3c3">
-        <van-field value="{{ content }}" custom-style="min-height:200rpx" placeholder="写一些评价吧" bind:change="onContentChange" type="textarea" autosize />
-        <van-rate style="width:100rpx" value="{{ score*0.5 }}" bind:change="onScoreChange" allow-half />
-        <van-button type="warning" bindtap="uploadImg">上传图片</van-button>
-        <van-row>
-            <van-col span="8" wx:for="{{images}}" wx:key="{{index}}">
-                <van-image width="240rpx" height="240rpx" fit="cover" src="{{item}}" />
+        <!-- 热门评论 -->
+        <van-divider contentPosition="left">电影资源</van-divider>
+        <van-notice-bar mode="closeable" backgroundColor="pink" color="red" text="点击链接,即可复制到浏览器中观看!(该项目为我学习与总结所用切勿运用到商业用途!否则后果自负!)" />
+        <van-row wx:if="{{detail.videos.length==0}}">
+            <van-col span="4" offset="10" style="margin-top:30rpx;color:red;">
+                <van-icon name="clear" /> 暂无!
             </van-col>
         </van-row>
-    </view>
+        <view style="padding:30rpx;word-break:break-all;">
+            <van-row wx:for="{{detail.videos}}" wx:key="index" style="border:1px dashed transparent;margin-bottom:10rpx">
+                <van-col span="6">
+                    <van-tag color="#7232dd">
+                        {{item.source.name}}
+                    </van-tag>
+                </van-col>
+                <van-col span="18">
+                    <van-tag color="#7232dd" bindtap='copy' data-copyUrl="{{'https://vip.bljiex.com/?v='+item.sample_link}}">
+                        {{'https://vip.bljiex.com/?v='+item.sample_link}}
+                    </van-tag>
+                </van-col>
+            </van-row>
+        </view>
+        <!-- 热门评论 -->
+        <van-divider contentPosition="left">热门评论</van-divider>
+        <view>
+            <van-row wx:for="{{detail.popular_comments}}" wx:key="{{index}}" style="border:1px dashed transparent;margin-bottom:10rpx">
+                <!-- 用户信息 -->
+                <van-col span="3">
+                    <van-image round width="80rpx" height="80rpx" fit="cover" src="{{item.author.avatar}}" />
+                </van-col>
+                <!-- 评论内容 -->
+                <van-col span="20">
+                    <view style="color:#555;font-size: 22rpx;">
+                        <text>{{item.author.name}}</text>
+                        <text style="float:right;font-size: 24rpx;">{{item.useful_count}}</text>
+                        <van-icon name="good-job-o" style="float:right;font-size: 24rpx;" />
+                    </view>
+                    <text style="color: black;font-size: 24rpx;">{{item.content}}</text>
+                    <view style="font-size: 22rpx;">{{item.created_at}}</view>
+                </van-col>
+            </van-row>
+        </view>
 
-    <view>
-        <van-button wx:if="{{commentShow}}" style="float:right" size="normal" type="primary" bindtap="submit">提交评价</van-button>
-        <van-button data-commentShow="{{commentShow}}" size="{{commentShow==false?'large':'normal'}}" type="danger" bindtap="handleCommentShow" style="{{commentShow?'margin-right:5px;float:right':''}}">{{commentShow?'关闭评论':'点击评论'}}</van-button>
+        <!-- 评价 -->
+        <view class="comment-container" wx:if="{{commentShow}}" style="border:1px dashed #c3c3c3;margin-bottom:30rpx">
+            <van-field value="{{ content }}" custom-style="min-height:200rpx" placeholder="写一些评价吧" bind:change="onContentChange" type="textarea" autosize />
+            <van-rate style="width:100rpx" value="{{ score*0.5 }}" bind:change="onScoreChange" allow-half />
+            <van-button type="warning" bindtap="uploadImg" style="float:right;">添加图片</van-button>
+            <van-row>
+                <van-col span="8" wx:for="{{images}}" wx:key="{{index}}">
+                    <van-image width="240rpx" height="240rpx" fit="cover" src="{{item}}" />
+                </van-col>
+            </van-row>
+        </view>
+
+        <view>
+            <van-button wx:if="{{commentShow}}" style="float:right;width:350rpx;" size="large" type="primary" bindtap="submit">提交评价</van-button>
+            <van-button data-commentShow="{{commentShow}}" size="{{commentShow==false?'large':'large'}}" type="danger" bindtap="handleCommentShow" style="{{commentShow?'float:right;width:350rpx;':''}}">{{commentShow?'关闭评论':'点击评论'}}</van-button>
+        </view>
     </view>
 </view>

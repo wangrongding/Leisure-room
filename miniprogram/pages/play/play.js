@@ -37,7 +37,7 @@ Page({
      */
     onUnload: function() {
         wx.navigateBack({
-            delta: 3
+            delta: 2
         })
     },
 

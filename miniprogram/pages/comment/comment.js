@@ -10,19 +10,109 @@ Page({
         content: "", //评价的内容
         score: 5,
         images: [],
-        fileids: []
+        fileids: [],
+        cardCur: 0,
+        swiperList: [],
     },
+
+    copy(event) {
+        // console.log(event)
+        wx.setClipboardData({
+            data: event.target.dataset.copyurl,
+            success() {
+                wx.showToast({
+                    title: '复制成功',
+                    icon: 'success',
+                    duration: 1000
+                })
+            }
+        })
+    },
+    // ↓为轮播图函数体
+    DotStyle(e) {
+        this.setData({
+            DotStyle: e.detail.value
+        })
+    },
+    // cardSwiper
+    cardSwiper(e) {
+        this.setData({
+            cardCur: e.detail.current
+        })
+    },
+    // towerSwiper
+    // 初始化towerSwiper
+    towerSwiper(name) {
+        /* let list = this.data.detail.casts.map(v => {
+            return v.avatars
+        }); */
+        let list = this.data.detail.casts
+
+        list = list.map(function(v, i, a) {
+            v.myid = i
+            return v
+        });
+        // console.log(list, "list")
+        for (let i = 0; i < list.length; i++) {
+            list[i].zIndex = parseInt(list.length / 2) + 1 - Math.abs(i - parseInt(list.length / 2))
+            // console.log(list[i].zIndex, "list[i].zIndex")
+            list[i].mLeft = i - parseInt(list.length / 2)
+        }
+        this.setData({
+            swiperList: list
+        })
+    },
+    // towerSwiper触摸开始
+    towerStart(e) {
+        this.setData({
+            towerStart: e.touches[0].pageX
+        })
+    },
+    // towerSwiper计算方向
+    towerMove(e) {
+        this.setData({
+            direction: e.touches[0].pageX - this.data.towerStart > 0 ? 'right' : 'left'
+        })
+    },
+    // towerSwiper计算滚动
+    towerEnd(e) {
+        let direction = this.data.direction;
+        let list = this.data.swiperList;
+        if (direction == 'right') {
+            let mLeft = list[0].mLeft;
+            let zIndex = list[0].zIndex;
+            for (let i = 1; i < list.length; i++) {
+                list[i - 1].mLeft = list[i].mLeft
+                list[i - 1].zIndex = list[i].zIndex
+            }
+            list[list.length - 1].mLeft = mLeft;
+            list[list.length - 1].zIndex = zIndex;
+            this.setData({
+                swiperList: list
+            })
+        } else {
+            let mLeft = list[list.length - 1].mLeft;
+            let zIndex = list[list.length - 1].zIndex;
+            for (let i = list.length - 1; i > 0; i--) {
+                list[i].mLeft = list[i - 1].mLeft
+                list[i].zIndex = list[i - 1].zIndex
+            }
+            list[0].mLeft = mLeft;
+            list[0].zIndex = zIndex;
+            this.setData({
+                swiperList: list
+            })
+        }
+    },
+    // ↑为轮播图函数体
+
     handleCommentShow: function(event) {
-        console.log(event)
-        console.log(event.target.dataset.commentshow)
         this.setData({
             commentShow: !event.target.dataset.commentshow
         })
-        console.log(event.target.dataset.commentshow)
     },
     //跳转到电影详情页面
     gotoPlay: function(event) {
-        console.log(event)
         wx.navigateTo({
             url: `../play/play?movieurl=${event.target.dataset.movieurl}`,
         })
@@ -33,8 +123,6 @@ Page({
         wx.showLoading({
             title: "正在提交"
         });
-        // console.log(this.data.content);
-        // console.log(this.data.score);
         //上传图片到云存储
         let promiseArr = [];
         for (let i = 0; i < this.data.images.length; i++) {
@@ -92,14 +180,11 @@ Page({
         this.setData({
             content: event.detail
         });
-        // console.log(event)
-        // console.log(this.data.content)
     },
     onScoreChange: function(event) {
         this.setData({
             score: event.detail * 2
         });
-        // console.log(event)
     },
 
     //上传图片
@@ -143,11 +228,11 @@ Page({
                 }
             })
             .then(res => {
-                console.log(res);
                 this.setData({
                     detail: JSON.parse(res.result)
                 });
                 wx.hideLoading();
+                this.towerSwiper()
             })
             .catch(err => {
                 console.log(err);

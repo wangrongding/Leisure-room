@@ -1,6 +1,5 @@
 {
     "usingComponents": {
-        "van-button": "/vant-weapp/button"
     },
-    "navigationBarTitleText": "Sparrow影评系统"
+    "navigationBarTitleText": "正在热映"
 }

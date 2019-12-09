@@ -1,7 +1,5 @@
 {
   "usingComponents": {
-    "van-button": "vant-weapp/button",
-    "van-notice-bar": "vant-weapp/notice-bar"
   },
   "navigationBarTitleText": "我的"
 }

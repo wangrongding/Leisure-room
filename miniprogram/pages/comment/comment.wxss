@@ -16,7 +16,7 @@
 
 .detail-img {
     width: 280rpx;
-    height: 90%;
+    height: 100%;
     margin-right: 24rpx;
 }
 
@@ -76,7 +76,13 @@
 }
 
 .van-rate {
-    display: inline-block;
-    width: 530rpx;
-    margin: 60rpx 0;
+    float: left;
+    width: 400rpx;
+    margin: 20rpx 0;
+}
+
+.tower-swiper .tower-item {
+    transform: scale(calc(0.5 + var(--index) / 10));
+    margin-left: calc(var(--left) * 100rpx - 150rpx);
+    z-index: var(--index);
 }

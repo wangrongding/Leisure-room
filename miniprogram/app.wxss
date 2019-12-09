@@ -1,4 +1,7 @@
 /**app.wxss**/
+@import "./style/main.wxss";
+@import "./style/icon.wxss";
+@import "./style/animation.wxss";
 .container {
   display: flex;
   flex-direction: column;
